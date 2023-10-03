@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+.app-container {
+  width: 60%;
+  margin: 0 auto;
+  padding-top: 50px; /* padding on the top */
+}
+
+.app-section {
+  margin-bottom: 20px; /* space between the components */
+}
