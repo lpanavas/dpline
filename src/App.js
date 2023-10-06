@@ -7,6 +7,28 @@ import "rc-slider/assets/index.css";
 function App() {
   const MIN_EPSILON = 0.1;
   const MAX_EPSILON = 10;
+  const scenarios = [
+    {
+      title: "Identifying Substance Abuse Cases in a School District",
+      description:
+        "You are a health official tasked with understanding substance abuse patterns within a school district. After running a confidential survey across high schools, you aim to disclose the number of positive cases to guide future preventive campaigns. Given the sensitive nature of the topic and potential repercussions for identified students, it's critical to maintain their privacy. Your goal is to release a count that provides a broad understanding of the scale of the issue without putting any individual student at risk. Specifically, the disclosed count shouldn't deviate by more than 2 from the actual figure. Through careful adjustment of ε, you intend to strike this delicate balance between data transparency and student confidentiality.",
+    },
+    {
+      title: "Average Age in a High School",
+      description:
+        "You are an educational researcher studying the age distribution of high school students in a school with 967 students. The goal is to determine the average age of students. You need the average age to be accurate within 0.01 years of the true mean. Adjusting ε will help you understand how close you can get to the true mean without compromising individual student's data.",
+    },
+    {
+      title: "Income Distribution in a Small Town",
+      description:
+        "As an economist, you're researching the economic health of a small town with a population of 5,000. Your focus is on the household income distribution, which is segmented into five distinct bands: <$20k, $20k-$40k, $40k-$60k, $60k-$80k, and >$80k. To provide an accurate economic picture without risking individual household privacy, it's vital that no bin value deviates by more than 5 from the actual count. By adjusting ε, you aim to maintain the integrity of the town's economic distribution while ensuring individual households remain anonymous.",
+    },
+  ];
+  const [selectedScenario, setSelectedScenario] = useState(scenarios[0]);
+  const handleScenarioChange = (scenarioTitle) => {
+    const scenario = scenarios.find((s) => s.title === scenarioTitle);
+    setSelectedScenario(scenario);
+  };
 
   const [sliderValues, setSliderValues] = useState([
     MIN_EPSILON,
@@ -38,11 +60,6 @@ function App() {
 
   const errorForSelectedEpsilon =
     Math.log(k / delta) * (sensitivity / sliderValues[1]);
-  // const sigma =
-  //   (Math.sqrt(k) *
-  //     (sensitivity * Math.sqrt(2 * Math.log(1.25 / delta_gaussian)))) /
-  //   sliderValues[1];
-  // const gaussianErrorForSelectedEpsilon = 1.96 * sigma;
 
   return (
     <div className="app-container">
@@ -144,11 +161,6 @@ function App() {
             expected to be less than or equal to{" "}
             {errorForSelectedEpsilon.toFixed(2)}.
           </li>
-          {/* <li>
-            The error of the Gaussian mechanism's private statistical estimate
-            is expected to be less than or equal to{" "}
-            {gaussianErrorForSelectedEpsilon.toFixed(2)}.
-          </li> */}
         </ul>
       </div>
 
@@ -169,6 +181,23 @@ function App() {
           onChange={(values) => setSliderValues(values)}
           allowCross={false}
         />
+      </div>
+      <div className="app-section">
+        <label>
+          Choose a scenario:
+          <select onChange={(e) => handleScenarioChange(e.target.value)}>
+            {scenarios.map((scenario, index) => (
+              <option key={index} value={scenario.title}>
+                {scenario.title}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+      {/* Scenario */}
+      <div className="app-section">
+        <h3>Scenario:</h3>
+        <p>{selectedScenario.description}</p>
       </div>
     </div>
   );
