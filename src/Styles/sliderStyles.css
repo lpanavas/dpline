@@ -1,0 +1,12 @@
+/* src/sliderStyles.css */
+.hide-track .rc-slider-track {
+  display: none;
+}
+
+.hide-track .rc-slider-rail {
+  background-color: transparent;
+}
+
+.hide-track .rc-slider-handle {
+  border: solid 1px #000; /* This makes the handle more visible without the blue track */
+}
